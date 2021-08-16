@@ -4,7 +4,7 @@ const {Sequelize, QueryTypes, Op} = require('sequelize');
 
 const {
     User
-} = require('../../database');
+} = require('../../database')
 
 
 router.get('/', async (req, res) => {
