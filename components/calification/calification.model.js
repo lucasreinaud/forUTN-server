@@ -1,25 +1,18 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('usuarios', {
-        idusuario: {
+    return sequelize.define('calificaciones', {
+        idcalificacion: {
             type: type.BIGINT,
             allowNull: false,
             primaryKey: true
         },
-        idperfil: {
+        idusuario: {
             type: type.BIGINT
         },
-        idcarrera: {
+        identrada: {
             type: type.BIGINT
         },
-        username: {
+        tipoclasificacion: {
             type: type.TEXT
         },
-        pwd: {
-            type: type.TEXT
-        },
-        mail: {
-            type: type.TEXT
-        },
-        
     });
 };
