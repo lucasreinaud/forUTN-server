@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
             allowNull: false,
             primaryKey: true
         },
-        nombre: {
+        nombreperfil: {
             type: type.TEXT
         }
     });

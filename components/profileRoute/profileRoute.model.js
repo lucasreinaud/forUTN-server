@@ -1,11 +1,11 @@
 module.exports = (sequelize, type) => {
     return sequelize.define('perfiles_rutas', {
-        idRuta: {
+        idruta: {
             type: type.BIGINT,
             allowNull: false,
             primaryKey: true
         },
-        idPerfil: {
+        idperfil: {
             type: type.BIGINT
         },
         ruta: {

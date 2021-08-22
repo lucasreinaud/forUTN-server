@@ -1,8 +1,9 @@
 const Sequelize = require('sequelize');
+const constants = require('../constants');
 
 //Stablish conecction
 const sequelize = new Sequelize(
-    'postgres://adminadmin@forutn:Forutn123@forutn.postgres.database.azure.com:5432/postgres',
+    `postgres://${constants.DB_USER}:${constants.DB_PWD}@${constants.DB_HOST}:${constants.DB_PORT}/${constants.DB_DBNAME}`,
     {
         dialectOptions : {
             ssl : {
