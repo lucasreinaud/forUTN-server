@@ -1,10 +1,11 @@
 module.exports = (sequelize, type) => {
     return sequelize.define('perfiles_rutas', {
         idruta: {
-            type: type.BIGINT,
+            type: type.INTEGER,
+            autoIncrement: true,
             allowNull: false,
-            primaryKey: true
-        },
+            primaryKey: true,
+          },
         idperfil: {
             type: type.BIGINT
         },

@@ -9,6 +9,8 @@ const parameterController = require('../components/parameter/parameter.controlle
 const profileController = require('../components/profile/profile.controller');
 const profileRouteController = require('../components/profileRoute/profileRoute.controller');
 const relInputUserController = require('../components/relInputUser/relInputUser.controller');
+const inputUserController = require('../components/input/input.controller');
+
 
 
 router.use('/users', userController);
@@ -20,6 +22,8 @@ router.use('/parameters', parameterController);
 router.use('/profiles', profileController);
 router.use('/profileRoutes', profileRouteController);
 router.use('/relInputUsers', relInputUserController);
+router.use('/inputUsers', inputUserController);
+
 
 
 module.exports = router;

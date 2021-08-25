@@ -3,24 +3,12 @@ require('dotenv').config();
 const {Sequelize, QueryTypes, Op} = require('sequelize');
 const multer = require('multer');
 const inMemoryStorage = multer.memoryStorage();
-const updateStrategy = multer({ storage: inMemoryStorage}).single('images');
-const azureStorage = require('azure-storage');
-const blobService = azureStorage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
-const containerName = 'forutn';
-const getStream = require('into-stream');
+const updateStrategy = multer({ storage: inMemoryStorage}).any('images');
+const uploadFilesToAzure = require('../../helpers/uploadFilesToAzure');
 
-const _module = {
-    getStorageAccountName : () => {
-        const matches = /AccountName = (.*?)/.exec(process.env.AZURE_STORAGE_CONNECTION_STRING);
-        return matches[1];
-    }
-}
-
-const getBlobName = originalName => {
-    const identifier = Math.random().toString().replace(/0\./,'');
-    return identifier+"-"+originalName;
-}
-
+const {
+    File
+} = require('../../database')
 
 router.get('/', async (req, res) => {
     try {
@@ -32,20 +20,26 @@ router.get('/', async (req, res) => {
 
 
 router.post('/upload', updateStrategy , async (req, res) => {
-        const blobName = getBlobName(req.file.originalname);
-        const streamLength = req.file.buffer.length;
-        const stream = getStream(req.file.buffer);
-        blobService.createBlockBlobFromStream(containerName, blobName, stream,streamLength, err => {
-            if(err){
-                console.log("ERROR:",err);
-                return;
-            }
-        });
+    try{
+        const files = await uploadFilesToAzure(req.files);
+        console.log(files)
+        const file = await File.create({
+            tipo: 'c',
+            urlFile : files[0].urlFile,
+
+        })
         res.status(200).json({
             status: 200,
-            message: 'SUBIDA EXITOSA'
+            message: 'SUBIDA EXITOSA',
+            files,
         });
+    }catch(e){
+        console.log(e)
+        res.status(400).json({message:'malo'})
+    }
+    
 });
+
 
 
 module.exports = router;

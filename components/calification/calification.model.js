@@ -1,10 +1,11 @@
 module.exports = (sequelize, type) => {
     return sequelize.define('calificaciones', {
         idcalificacion: {
-            type: type.BIGINT,
+            type: type.INTEGER,
+            autoIncrement: true,
             allowNull: false,
-            primaryKey: true
-        },
+            primaryKey: true,
+          },
         idusuario: {
             type: type.BIGINT
         },
