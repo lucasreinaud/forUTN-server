@@ -4,40 +4,34 @@ const error = require('../../bin/error');
 
 const {
     Input,
-    File,
     RelInputUser
 } = require('../../database')
 
 
 router.post('/', async (req, res) => {
     try {
-        console.log(req);
+        //archivos => [4,3,5,6]
         const { identradapadre, idusuario, idcarrera, contenido, archivos } = req.body;
-        
+        console.log(req.body);
         const inputCreated = await Input.create({
             idusuario,
             idcarrera,
             identradapadre,
             contenido,
             });
-
-        if(req.files)
-        {
-            const files = await uploadFilesToAzure(req.files);
-            const fileCreated = await File.create({
-                urlfile: files[0].urlFile
-            });
-
-            const relCreated = await RelInputUser.create({
-                idarchivo: fileCreated.idarchivo,
-                identrada:inputCreated.idarchivo
-            });
-        }
-        res.status(200).json({inputCreated});          
-    } catch (error) {
-        console.log("Error en el GET input", error);
-        return res.status(404).json(error);          
-
+        archivos.forEach(async id => {
+            console.log(id);
+            await RelInputUser.create({
+                idarchivo : id,
+                identrada : inputCreated.identrada,
+                });
+        })
+        res.status(200).json({
+            status: 200,
+            message:'Publicacion creada',
+        });          
+    } catch (e) {
+        error(res,400,'error en el post input', e)
     }
 });
 

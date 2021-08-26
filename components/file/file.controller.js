@@ -5,7 +5,7 @@ const multer = require('multer');
 const inMemoryStorage = multer.memoryStorage();
 const updateStrategy = multer({ storage: inMemoryStorage}).any('images');
 const uploadFilesToAzure = require('../../helpers/uploadFilesToAzure');
-
+const error = require('../../bin/error');
 const {
     File
 } = require('../../database')
@@ -19,25 +19,44 @@ router.get('/', async (req, res) => {
 });
 
 
+async function insertFileToDb(myFile){
+    try{
+        //p = pdf , i = image 
+        const op = myFile.name.split(-3).includes('pdf') ? 'p' : 'i';
+        const file = await File.create({
+            tipo: op,
+            urlfile : myFile.urlFile,
+        });
+        return {
+            idarchivo : file.idarchivo,
+            tipo : file.tipo,
+            urlfile: file.urlfile
+        }
+        
+    }catch(e){
+        return e;
+    }
+};
+
+//Por dios que alguien me mate
+async function toDb(list){
+    const promises = list.map(insertFileToDb);
+    return await Promise.all(promises);
+}
+
 router.post('/upload', updateStrategy , async (req, res) => {
     try{
         const files = await uploadFilesToAzure(req.files);
-        console.log(files)
-        const file = await File.create({
-            tipo: 'c',
-            urlFile : files[0].urlFile,
-
-        })
+        const listFiles = await toDb(files);
+        console.log("List files:",listFiles);
         res.status(200).json({
             status: 200,
             message: 'SUBIDA EXITOSA',
-            files,
+            listFiles,
         });
     }catch(e){
-        console.log(e)
-        res.status(400).json({message:'malo'})
+        error(res, 400, 'Error en la subida de imagenes', e);
     }
-    
 });
 
 
