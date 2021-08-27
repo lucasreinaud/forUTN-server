@@ -32,7 +32,6 @@ async function insertFileToDb(myFile){
             tipo : file.tipo,
             urlfile: file.urlfile
         }
-        
     }catch(e){
         return e;
     }
@@ -48,7 +47,6 @@ router.post('/upload', updateStrategy , async (req, res) => {
     try{
         const files = await uploadFilesToAzure(req.files);
         const listFiles = await toDb(files);
-        console.log("List files:",listFiles);
         res.status(200).json({
             status: 200,
             message: 'SUBIDA EXITOSA',

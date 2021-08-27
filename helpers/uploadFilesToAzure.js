@@ -4,13 +4,6 @@ const containerName = 'forutn';
 const getStream = require('into-stream');
 const blobUrl = 'https://forutn.blob.core.windows.net/forutn';
 
-const _module = {
-    getStorageAccountName : () => {
-        const matches = /AccountName = (.*?)/.exec(process.env.AZURE_STORAGE_CONNECTION_STRING);
-        return matches[1];
-    }
-}
-
 const getBlobName = originalName => {
     const identifier = Math.random().toString().replace(/0\./,'');
     return identifier+"-"+originalName;
