@@ -3,17 +3,17 @@ const {Sequelize, QueryTypes, Op} = require('sequelize');
 
 
 const {
-    User
+    ProfileRoute
 } = require('../../database')
 
 
 router.get('/', async (req, res) => {
     try {
-        console.log("usuarios");
-        const usuarios = await User.findAll(); 
-        res.status(200).json(usuarios);  
+        console.log("ProfileRoute");
+        const profileRoutes = await ProfileRoute.findAll(); 
+        res.status(200).json(profileRoutes);  
     } catch (error) {
-        console.log("Error en el GET USUARIOS",error);
+        console.log("Error en el GET ProfileRoute", error);
     }
 });
 

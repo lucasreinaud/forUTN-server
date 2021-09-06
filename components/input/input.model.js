@@ -1,26 +1,22 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('usuarios', {
-        idusuario: {
+    return sequelize.define('entradas', {
+        identrada: {
             type: type.INTEGER,
             autoIncrement: true,
             allowNull: false,
             primaryKey: true,
           },
-        idperfil: {
+        idusuario: {
             type: type.BIGINT
         },
         idcarrera: {
             type: type.BIGINT
         },
-        username: {
-            type: type.TEXT
+        identradapadre: {
+            type: type.BIGINT
         },
-        pwd: {
+        contenido: {
             type: type.TEXT
-        },
-        mail: {
-            type: type.TEXT
-        },
-        
+        }
     });
 };

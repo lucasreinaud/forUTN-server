@@ -1,6 +1,6 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('usuarios', {
-        idusuario: {
+    return sequelize.define('perfiles_rutas', {
+        idruta: {
             type: type.INTEGER,
             autoIncrement: true,
             allowNull: false,
@@ -9,18 +9,8 @@ module.exports = (sequelize, type) => {
         idperfil: {
             type: type.BIGINT
         },
-        idcarrera: {
-            type: type.BIGINT
-        },
-        username: {
+        ruta: {
             type: type.TEXT
-        },
-        pwd: {
-            type: type.TEXT
-        },
-        mail: {
-            type: type.TEXT
-        },
-        
+        }
     });
 };
