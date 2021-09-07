@@ -11,7 +11,7 @@ describe('TESTING THE END POINT USERS', () => {
     });
 
     it('should return 404 when cant find a user', async () => {
-        await request(app).get("/users/1").expect(404);
+        await request(app).get("/users/12").expect(404);
     });
 });
 
