@@ -4,9 +4,7 @@ author: David Marcolin
 on:
   push:
     branches:
-      - master
-  pull_request:
-    branches: [ feature ]
+      - develop
 
 jobs:
   build:
