@@ -22,7 +22,7 @@ router.use('/parameters', parameterController);
 router.use('/profiles', profileController);
 router.use('/profileRoutes', profileRouteController);
 router.use('/relInputUsers', relInputUserController);
-router.use('/inputUsers', inputUserController);
+router.use('/inputs', inputUserController);
 
 
 
