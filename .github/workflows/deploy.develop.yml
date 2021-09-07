@@ -1,6 +1,4 @@
 name: ForUTN Github Action CI
-author: David Marcolin
-
 on: push
 
 jobs:
