@@ -20,7 +20,13 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: |
-        echo $DB_USER
+        AZURE_STORAGE_CONNECTION_STRING=$AZURE_STORAGE_CONNECTION_STRING
+        DB_USER=$DB_USER
+        DB_PWD=$DB_PWD
+        DB_PORT=$DB_PORT
+        DB_HOST=$DB_HOST
+        DB_DBNAME=$DB_DBNAME
+        npm test
       env:
         AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         DB_USER: ${{ secrets.DB_USER }}
