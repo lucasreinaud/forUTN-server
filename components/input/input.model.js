@@ -17,6 +17,9 @@ module.exports = (sequelize, type) => {
         },
         contenido: {
             type: type.TEXT
+        },
+        titulo: {
+            type: type.TEXT
         }
     });
 };
