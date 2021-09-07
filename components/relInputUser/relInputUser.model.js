@@ -1,10 +1,11 @@
 module.exports = (sequelize, type) => {
     return sequelize.define('rel_entradas_archivos', {
         id: {
-            type: type.BIGINT,
+            type: type.INTEGER,
+            autoIncrement: true,
             allowNull: false,
-            primaryKey: true
-        },
+            primaryKey: true,
+          },
         idarchivo: {
             type: type.BIGINT
         },

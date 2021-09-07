@@ -3,24 +3,12 @@ require('dotenv').config();
 const {Sequelize, QueryTypes, Op} = require('sequelize');
 const multer = require('multer');
 const inMemoryStorage = multer.memoryStorage();
-const updateStrategy = multer({ storage: inMemoryStorage}).single('images');
-const azureStorage = require('azure-storage');
-const blobService = azureStorage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
-const containerName = 'forutn';
-const getStream = require('into-stream');
-
-const _module = {
-    getStorageAccountName : () => {
-        const matches = /AccountName = (.*?)/.exec(process.env.AZURE_STORAGE_CONNECTION_STRING);
-        return matches[1];
-    }
-}
-
-const getBlobName = originalName => {
-    const identifier = Math.random().toString().replace(/0\./,'');
-    return identifier+"-"+originalName;
-}
-
+const updateStrategy = multer({ storage: inMemoryStorage}).any('images');
+const uploadFilesToAzure = require('../../helpers/uploadFilesToAzure');
+const error = require('../../bin/error');
+const {
+    File
+} = require('../../database')
 
 router.get('/', async (req, res) => {
     try {
@@ -31,21 +19,44 @@ router.get('/', async (req, res) => {
 });
 
 
-router.post('/upload', updateStrategy , async (req, res) => {
-        const blobName = getBlobName(req.file.originalname);
-        const streamLength = req.file.buffer.length;
-        const stream = getStream(req.file.buffer);
-        blobService.createBlockBlobFromStream(containerName, blobName, stream,streamLength, err => {
-            if(err){
-                console.log("ERROR:",err);
-                return;
-            }
+async function insertFileToDb(myFile){
+    try{
+        //p = pdf , i = image 
+        const op = myFile.name.split(-3).includes('pdf') ? 'p' : 'i';
+        const file = await File.create({
+            tipo: op,
+            urlfile : myFile.urlFile,
         });
+        return {
+            idarchivo : file.idarchivo,
+            tipo : file.tipo,
+            urlfile: file.urlfile
+        }
+    }catch(e){
+        return e;
+    }
+};
+
+//Por dios que alguien me mate
+async function toDb(list){
+    const promises = list.map(insertFileToDb);
+    return await Promise.all(promises);
+}
+
+router.post('/upload', updateStrategy , async (req, res) => {
+    try{
+        const files = await uploadFilesToAzure(req.files);
+        const listFiles = await toDb(files);
         res.status(200).json({
             status: 200,
-            message: 'SUBIDA EXITOSA'
+            message: 'SUBIDA EXITOSA',
+            listFiles,
         });
+    }catch(e){
+        error(res, 400, 'Error en la subida de imagenes', e);
+    }
 });
+
 
 
 module.exports = router;

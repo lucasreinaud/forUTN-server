@@ -5,3 +5,5 @@ const error = (res, status, message, err) => {
         err
     });
 }
+
+module.exports = error;
