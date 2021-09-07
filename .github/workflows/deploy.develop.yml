@@ -7,9 +7,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     node-version: [12.x, 14.x, 16.x]
+    strategy:
+      matrix:
+        node-version: [14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -27,6 +27,7 @@ jobs:
         DB_PORT=$DB_PORT
         DB_HOST=$DB_HOST
         DB_DBNAME=$DB_DBNAME
+        npm i
         npm test
       env:
         AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
