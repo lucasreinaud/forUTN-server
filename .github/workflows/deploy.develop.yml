@@ -3,7 +3,8 @@ author: David Marcolin
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - master
   pull_request:
     branches: [ feature ]
 
