@@ -10,11 +10,10 @@ const {
 
 router.get('/', async (req, res) => {
     try {
-        console.log("Entradas");
         const inputs = await Input.findAll(); 
         res.status(200).json(inputs);  
     } catch (error) {
-        console.log("Error en el GET USUARIOS",error);
+        error(res, 400, 'Error en el get INPUTS', err);
     }
 });
 
@@ -59,9 +58,9 @@ router.get('/:id', async (req, res) => {
                     urlFiles.push(a.urlfile);
                 })
             }
-            res.status(200).json({status:200, message:inputs, comentarios: coments, archivos: urlFiles});
+            res.status(200).json({response:'OK', message:inputs, comentarios: coments, archivos: urlFiles});
         }
-        else res.status(200).json({status: 404, message: 'Empty'});
+        else error(res,400,'error en el get by id input', e)
     } catch (err) {
         console.log(err);
         error(res, 400, 'Error en el get inputs by id', err);
@@ -69,19 +68,16 @@ router.get('/:id', async (req, res) => {
 });
 
 
-
-
-
-
 router.post('/', async (req, res) => {
     try {
         //archivos => [4,3,5,6]
-        const { identradapadre, idusuario, idcarrera, contenido, archivos } = req.body;
+        const { identradapadre, idusuario, idmateria, contenido, archivos, titulo } = req.body;
         const inputCreated = await Input.create({
             idusuario,
-            idcarrera,
+            idmateria,
             identradapadre,
             contenido,
+            titulo
             });
         archivos.forEach(async id => {
             await RelInputUser.create({
@@ -90,7 +86,7 @@ router.post('/', async (req, res) => {
                 });
         })
         res.status(200).json({
-            status: 200,
+            response: 'OK',
             message:'Publicacion creada',
         });          
     } catch (e) {
@@ -98,5 +94,74 @@ router.post('/', async (req, res) => {
     }
 });
 
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const { identrada } = req.body;
+        var idFiles = [];
+        const relinputsfiles = await RelInputUser.findAll({
+            where:{
+                identrada
+            }
+        });
+        relinputsfiles.forEach(rel => {
+            idFiles.push(rel.idarchivo);
+        });
+
+        File.destroy({
+            where:{
+                idarchivo : idFiles
+            }
+        });
+
+        RelInputUser.destroy({
+            where:{
+                identrada
+            }
+        });
+
+        Input.destroy({
+            where:{
+                identrada
+            }
+        });
+
+        res.status(200).json({
+            response: 'OK',
+            message:'Publicacion creada',
+        });          
+    } catch (e) {
+        error(res,400,'error en el borrado de Publicacion', e)
+    }
+});
+
+
+
+//Modificar un POST O COMENTARIO
+router.put('/', async (req, res) => {
+    try {
+        const { identrada, identradapadre, idusuario, idmateria, contenido, titulo } = req.body;
+        const inputCreated = await Input.update({
+            idusuario,
+            titulo,
+            idmateria,
+            identradapadre,
+            contenido,
+            },
+            {
+                where: 
+                {
+                    identrada
+                }
+            });
+        
+        res.status(200).json({
+            response: 'OK',
+            message:'Publicacion creada',
+        });          
+    } catch (e) {
+        error(res,400,'error en el update input', e)
+    }
+});
 
 module.exports = router;

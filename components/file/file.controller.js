@@ -48,7 +48,7 @@ router.post('/upload', updateStrategy , async (req, res) => {
         const files = await uploadFilesToAzure(req.files);
         const listFiles = await toDb(files);
         res.status(200).json({
-            status: 200,
+            response: 'OK',
             message: 'SUBIDA EXITOSA',
             listFiles,
         });

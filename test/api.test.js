@@ -20,7 +20,7 @@ describe('TESTING THE END POINT INPUTS', () => {
     it('should show all inputs', async () => {
         await request(app).get("/inputs").expect(200);
     });
-
+    
     it('should show the user with id = 1', async () => {
         await request(app).get("/users/1").expect(200);
     });
