@@ -4,7 +4,7 @@ const error = require('../../bin/error');
 
 
 const {
-    Career
+    Career, Subject
 } = require('../../database')
 
 
@@ -19,9 +19,17 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const careers = await Career.findByPk(req.params.id);
-        if(careers) res.status(200).json({status:200, message:careers});
-        else res.status(200).json({status: 404, message: 'Empty'});
+        var career = await Career.findByPk(req.params.id);
+        if(career) {
+            const subjects = Subject.findAll({
+                where: {
+                    idcarrera : career.idcarrera
+                }
+            })
+            career["subjects"] = subjects;
+            res.status(200).json({status:200, message:career});
+        }
+        else res.status(404).json({status: 'ERROR', message: 'Empty'});
     } catch (err) {
         error(res, 400, 'Error en el get carreras by id', err);
     }

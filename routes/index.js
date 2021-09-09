@@ -10,6 +10,8 @@ const profileController = require('../components/profile/profile.controller');
 const profileRouteController = require('../components/profileRoute/profileRoute.controller');
 const relInputUserController = require('../components/relInputUser/relInputUser.controller');
 const inputUserController = require('../components/input/input.controller');
+const subjectController = require('../components/subject/subject.controller');
+
 
 
 
@@ -23,6 +25,8 @@ router.use('/profiles', profileController);
 router.use('/profileRoutes', profileRouteController);
 router.use('/relInputUsers', relInputUserController);
 router.use('/inputs', inputUserController);
+router.use('/subjects', subjectController);
+
 
 
 

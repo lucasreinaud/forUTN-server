@@ -8,6 +8,9 @@ module.exports = (sequelize, type) => {
           },
         nombre: {
             type: type.TEXT
+        },
+        url: {
+            type: type.TEXT
         }
     });
 };
