@@ -14,8 +14,7 @@ router.get('/', async (req, res) => {
         const califications = await Calification.findAll(); 
         res.status(200).json(califications);  
     } catch (error) {
-        console.log("Error en el GET CALIFICACIONES", error);
-    }
+        error(res,400,'error en el get  calification', e)    }
 });
 
 //Calificaciones por id publicacion
@@ -29,7 +28,7 @@ router.get('/:id', async (req, res) => {
         }); 
         res.status(200).json(califications);  
     } catch (error) {
-        console.log("Error en el GET CALIFICACIONES", error);
+        error(res,400,'error en el get calification by id', e)
     }
 });
 
@@ -44,7 +43,7 @@ router.post('/', async (req, res) => {
             });
 
         res.status(200).json({
-            status: 200,
+            response: 'OK',
             message:'Calificacion creada',
         });          
     } catch (e) {

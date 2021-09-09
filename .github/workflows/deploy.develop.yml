@@ -1,4 +1,4 @@
-name: ForUTN Github Action CI
+name: ForUTN Github Action CI Develop
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
