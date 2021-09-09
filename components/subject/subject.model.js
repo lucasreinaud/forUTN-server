@@ -11,6 +11,9 @@ module.exports = (sequelize, type) => {
         },
         nombre: {
             type: type.TEXT
+        },
+        idcarrera: {
+            type: type.INTEGER
         }
     });
 };
