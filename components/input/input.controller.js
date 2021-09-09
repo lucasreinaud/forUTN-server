@@ -71,10 +71,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         //archivos => [4,3,5,6]
-        const { identradapadre, idusuario, idcarrera, contenido, archivos, titulo } = req.body;
+        const { identradapadre, idusuario, idmateria, contenido, archivos, titulo } = req.body;
         const inputCreated = await Input.create({
             idusuario,
-            idcarrera,
+            idmateria,
             identradapadre,
             contenido,
             titulo
@@ -140,11 +140,11 @@ router.delete('/:id', async (req, res) => {
 //Modificar un POST O COMENTARIO
 router.put('/', async (req, res) => {
     try {
-        const { identrada, identradapadre, idusuario, idcarrera, contenido, titulo } = req.body;
+        const { identrada, identradapadre, idusuario, idmateria, contenido, titulo } = req.body;
         const inputCreated = await Input.update({
             idusuario,
             titulo,
-            idcarrera,
+            idmateria,
             identradapadre,
             contenido,
             },

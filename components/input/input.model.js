@@ -9,7 +9,7 @@ module.exports = (sequelize, type) => {
         idusuario: {
             type: type.BIGINT
         },
-        idcarrera: {
+        idmateria: {
             type: type.BIGINT
         },
         identradapadre: {

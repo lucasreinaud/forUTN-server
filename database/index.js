@@ -26,6 +26,7 @@ const ParameterModel = require('../components/parameter/parameter.model');
 const ProfileModel = require('../components/profile/profile.model');
 const RelInputUserModel = require('../components/relInputUser/relInputUser.model');
 const ProfileRouteModel = require('../components/profileRoute/profileRoute.model');
+const SubjectModel = require('../components/subject/subject.model');
 
 
 const User = UserModel(sequelize, Sequelize);
@@ -38,6 +39,7 @@ const Parameter = ParameterModel(sequelize, Sequelize);
 const Profile = ProfileModel(sequelize, Sequelize);
 const ProfileRoute = ProfileRouteModel(sequelize, Sequelize);
 const RelInputUser = RelInputUserModel(sequelize, Sequelize);
+const Subject = SubjectModel(sequelize, Sequelize);
 
 sequelize.sync({ force : false}).then(() => {
     console.log("*----------------------Tablas sincronizadas------------------------*");
@@ -56,4 +58,5 @@ module.exports = {
     Profile,
     ProfileRoute,
     RelInputUser,
+    Subject
 }
