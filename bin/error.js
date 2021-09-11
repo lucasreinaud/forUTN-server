@@ -5,7 +5,7 @@ const error = (res, status, message, err) => {
     
     return res.status(status).json({
         response: 'ERROR',
-        message : "["+ date + " :" + time + "]" + message ,
+        message : "["+ date + " | " + time + "] " + message ,
         err
     });
 }

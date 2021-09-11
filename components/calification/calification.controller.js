@@ -36,15 +36,37 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { identrada, idusuario, tipoclasificacion } = req.body;
+        
+        const calificationExist = await Calification.findAll({
+            where:{
+                identrada,
+                idusuario
+            }
+        });
+        
+        if(calificationExist)
+        {
+            await Calification.destroy({
+                where:{
+                    identrada,
+                    idusuario
+                }
+            });
+
+            return res.status(200).json({
+                response: 'OK',
+                message:'Calificacion eliminada ya que existia una previamente',
+            }); 
+        }
         const inputCreated = await Input.create({
             identrada,
             idusuario,
             tipoclasificacion
             });
 
-        res.status(200).json({
+        return res.status(200).json({
             response: 'OK',
-            message:'Calificacion creada',
+            message:'Calificacion creada, no existia calificacion',
         });          
     } catch (e) {
         error(res,400,'error en el post calification', e)

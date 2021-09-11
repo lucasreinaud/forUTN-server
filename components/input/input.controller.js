@@ -108,19 +108,19 @@ router.delete('/:id', async (req, res) => {
             idFiles.push(rel.idarchivo);
         });
 
-        File.destroy({
+        await File.destroy({
             where:{
                 idarchivo : idFiles
             }
         });
 
-        RelInputUser.destroy({
+        await RelInputUser.destroy({
             where:{
                 identrada
             }
         });
 
-        Input.destroy({
+        await Input.destroy({
             where:{
                 identrada
             }

@@ -21,17 +21,18 @@ router.get('/:id', async (req, res) => {
     try {
         var subject = await Subject.findByPk(req.params.id);
         if(subject) {
-            const inputs = Subject.findAll({
+            const inputs = await Subject.findAll({
                 where: {
                     idmateria : subject.idmateria
                 }
             })
+            console.log(inputs)
             subject["inputs"] = inputs;
-            res.status(200).json({response:'OK', message:subject});
+            res.status(200).json({response:'OK', subject, inputs});
         }
         else res.status(404).json({response: 'ERROR', message: 'Empty'});
     } catch (err) {
-        error(res, 400, 'Error en el get carreras by id', err);
+        error(res, 400, 'Error en el get materias by id', err);
     }
 });
 
