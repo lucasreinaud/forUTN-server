@@ -64,6 +64,21 @@ GET
 --------------------
 RUTA -> Devuelve todos los inputs 
 
+Response -> 
+[
+    {
+        idusuario,
+        idperfil,
+        idcarrera,
+        username,
+        pwd,
+        mail
+    }
+]
 
 
 
+
+function devolverAnio(nivel,lista){
+    return lista.filter(a => a.anio == nivel)
+}
