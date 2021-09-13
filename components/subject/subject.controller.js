@@ -4,7 +4,7 @@ const error = require('../../bin/error');
 
 
 const {
-     Subject
+     Subject, Input
 } = require('../../database')
 
 
@@ -21,13 +21,12 @@ router.get('/:id', async (req, res) => {
     try {
         var subject = await Subject.findByPk(req.params.id);
         if(subject) {
-            const inputs = await Subject.findAll({
+            const inputs = await Input.findAll({
                 where: {
                     idmateria : subject.idmateria
                 }
             })
             console.log(inputs)
-            subject["inputs"] = inputs;
             res.status(200).json({response:'OK', subject, inputs});
         }
         else res.status(404).json({response: 'ERROR', message: 'Empty'});
