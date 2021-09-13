@@ -37,8 +37,8 @@ router.get('/:id', async (req, res) => {
             var tercerAnio = subjects.filter(materia => materia.anio == 3);
             var cuartoAnio = subjects.filter(materia => materia.anio == 4);
             var quintoAnio = subjects.filter(materia => materia.anio == 5);
-
-            res.status(200).json({response:'OK', career, primerAnio, segundoAnio, tercerAnio, cuartoAnio, quintoAnio });
+            var anios = [primerAnio,segundoAnio,tercerAnio,cuartoAnio,quintoAnio]
+            res.status(200).json({response:'OK', career, anios });
         }
         else res.status(404).json({response: 'ERROR', message: 'Empty'});
     } catch (err) {
