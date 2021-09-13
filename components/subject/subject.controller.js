@@ -23,14 +23,15 @@ router.get('/:id', async (req, res) => {
         if(subject) {
             const inputs = await Input.findAll({
                 where: {
-                    idmateria : subject.idmateria
+                    idmateria : subject.idmateria,
+                    identradapadre: 0
                 }
             })
-            console.log(inputs)
+            
             res.status(200).json({response:'OK', subject, inputs});
         }
         else res.status(404).json({response: 'ERROR', message: 'Empty'});
-    } catch (err) {
+    }catch (err) {
         error(res, 400, 'Error en el get materias by id', err);
     }
 });
