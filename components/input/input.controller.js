@@ -87,7 +87,7 @@ router.post('/', async (req, res) => {
         })
         res.status(200).json({
             response: 'OK',
-            message:'Publicacion creada',
+            message: inputCreated,
         });          
     } catch (e) {
         error(res,400,'error en el post input', e)
@@ -97,8 +97,8 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const { identrada } = req.body;
         var idFiles = [];
+        const identrada = req.params.id;
         const relinputsfiles = await RelInputUser.findAll({
             where:{
                 identrada
@@ -128,7 +128,7 @@ router.delete('/:id', async (req, res) => {
 
         res.status(200).json({
             response: 'OK',
-            message:'Publicacion creada',
+            message:'Eliminado',
         });          
     } catch (e) {
         error(res,400,'error en el borrado de Publicacion', e)

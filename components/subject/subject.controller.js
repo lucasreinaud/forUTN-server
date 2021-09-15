@@ -26,8 +26,7 @@ router.get('/:id', async (req, res) => {
                     idmateria : subject.idmateria,
                     identradapadre: 0
                 }
-            })
-            
+            });
             res.status(200).json({response:'OK', subject, inputs});
         }
         else res.status(404).json({response: 'ERROR', message: 'Empty'});
