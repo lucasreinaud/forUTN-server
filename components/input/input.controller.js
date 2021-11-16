@@ -5,7 +5,7 @@ const error = require('../../bin/error');
 const {
     Input,
     RelInputUser,
-    File
+    File, sequelize
 } = require('../../database');
 
 router.get('/', async (req, res) => {
@@ -161,6 +161,27 @@ router.put('/', async (req, res) => {
         });          
     } catch (e) {
         error(res,400,'error en el update input', e)
+    }
+});
+
+//Modulo de busqueda, se DEBERA mejorar, tomarlo con pinzas
+router.post('/search', async(req, res) => {
+
+    try{
+        const { texto } = req.body;
+        const publicaciones = await Input.findAll({
+            where: {
+                titulo:{
+                    [Sequelize.Op.iLike]: "%"+texto+"%"
+                }
+            }
+        })
+        res.status(200).json({
+            response: 'OK',
+            message:publicaciones,
+        });
+    }catch(e){
+        error(res,400,'error en el search', e)
     }
 });
 
