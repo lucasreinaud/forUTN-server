@@ -6,7 +6,8 @@ const {
     Input,
     RelInputUser,
     File,
-    Calification
+    Calification,
+    sequelize
 } = require('../../database');
 
 router.get('/', async (req, res) => {
@@ -33,7 +34,7 @@ router.get('/:id', async (req, res) => {
                     }
                 });
 
-                for(var i=0; i<comentarios.length; i++){
+                for (var i = 0; i < comentarios.length; i++) {
                     let a = comentarios[i]
 
                     const upvotes = await Calification.count({
@@ -57,10 +58,10 @@ router.get('/:id', async (req, res) => {
                         downvotes: downvotes
                     });
                 }
-                
+
                 /* comentarios.forEach(a => {
                 }); */
-                
+
 
                 console.log(coments)
                 const relEntradaArchivos = await RelInputUser.findAll({
@@ -185,6 +186,27 @@ router.put('/', async (req, res) => {
         });
     } catch (e) {
         error(res, 400, 'error en el update input', e)
+    }
+});
+
+//Modulo de busqueda, se DEBERA mejorar, tomarlo con pinzas
+router.post('/search', async (req, res) => {
+
+    try {
+        const { texto } = req.body;
+        const publicaciones = await Input.findAll({
+            where: {
+                titulo: {
+                    [Sequelize.Op.iLike]: "%" + texto + "%"
+                }
+            }
+        })
+        res.status(200).json({
+            response: 'OK',
+            message: publicaciones,
+        });
+    } catch (e) {
+        error(res, 400, 'error en el search', e)
     }
 });
 
